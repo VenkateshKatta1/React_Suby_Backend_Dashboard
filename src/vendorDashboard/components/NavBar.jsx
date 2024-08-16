@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navbar = ({
+const NavBar = ({
   showLoginHandler,
   showRegisterHandler,
   showLogOut,
@@ -28,4 +28,4 @@ const Navbar = ({
   );
 };
 
-export default Navbar;
+export default NavBar;
