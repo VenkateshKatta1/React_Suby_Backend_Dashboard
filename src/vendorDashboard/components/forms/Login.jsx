@@ -37,7 +37,7 @@ const Login = ({ showWelcomeHandler }) => {
 
         if (vendorResponse.ok) {
           const vendorFirmId = vendorData?.vendorFirmId;
-          const vendorFirmName = vendorData?.vendor?.firm[0]?.firmName;
+          const vendorFirmName = vendorData.vendor.firm[0].firmName;
           localStorage.setItem("firmId", vendorFirmId);
           localStorage.setItem("firmName", vendorFirmName);
           window.location.reload();
