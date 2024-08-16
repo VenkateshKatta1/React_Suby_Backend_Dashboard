@@ -16,7 +16,7 @@ const Login = ({ showWelcomeHandler }) => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      console.log("Login Response Data:", data); // Add this line to check the data returned
+      console.log("Login Response Data:", data);
 
       if (response.ok) {
         setEmail("");
@@ -24,27 +24,35 @@ const Login = ({ showWelcomeHandler }) => {
         alert("Login success");
         localStorage.setItem("loginToken", data.token);
 
-        const vendorId = data.vendorId; // Ensure that vendorId is properly set
-        console.log("Vendor ID:", vendorId); // Add this line to check the vendorId
+        const vendorId = data.vendorId;
+        console.log("Vendor ID:", vendorId);
 
         const vendorResponse = await fetch(
           `${API_URL}/vendor/single-vendor/${vendorId}`
         );
         const vendorData = await vendorResponse.json();
-        console.log("Vendor Data:", vendorData); // Add this line to check the fetched vendor data
+        console.log("Vendor Data:", vendorData);
 
         console.log("vendor response", vendorResponse);
 
         if (vendorResponse.ok) {
           const vendorFirmId = vendorData?.vendorFirmId;
-          const vendorFirmName = vendorData.vendor.firm[0].firmName;
-          localStorage.setItem("firmId", vendorFirmId);
-          localStorage.setItem("firmName", vendorFirmName);
-          window.location.reload();
-          showWelcomeHandler();
+          const vendorFirmName = vendorData?.vendor?.firm[0]?.firmName;
+          if (vendorFirmName === undefined && vendorFirmId === undefined) {
+            window.location.reload();
+            showWelcomeHandler();
+          } else if (
+            vendorFirmId !== undefined &&
+            vendorFirmName !== undefined
+          ) {
+            localStorage.setItem("firmId", vendorFirmId);
+            localStorage.setItem("firmName", vendorFirmName);
+            showWelcomeHandler();
+            window.location.reload();
+          }
         }
       } else {
-        alert(data.error || "Login failed");
+        alert("Login failed");
       }
     } catch (error) {
       console.error(error);
