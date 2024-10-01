@@ -5,6 +5,7 @@ const Register = ({ showLoginHandler }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [number, setNumber] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +18,7 @@ const Register = ({ showLoginHandler }) => {
         headers: {
           "content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, number }),
       });
 
       const data = await response.json();
@@ -27,6 +28,7 @@ const Register = ({ showLoginHandler }) => {
         setUsername("");
         setEmail("");
         setPassword("");
+        setNumber("");
         alert("Vendor registered successfully");
         showLoginHandler();
       } else {
@@ -37,6 +39,12 @@ const Register = ({ showLoginHandler }) => {
       console.error("Registration failed", error);
       alert("Registration failed");
     }
+  };
+
+  const handleNumberChange = (e) => {
+    // Remove any non-digit characters and limit to 10 digits
+    const sanitizedValue = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setNumber(sanitizedValue);
   };
 
   return (
@@ -70,6 +78,15 @@ const Register = ({ showLoginHandler }) => {
           value={password}
         />
         <br />
+        <label>Phone Number</label>
+        <input
+          type="text"
+          name="number"
+          placeholder="Enter your Ph.Number"
+          onChange={handleNumberChange}
+          value={number}
+        />
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="btnSubmit">
           <button type="submit">Submit</button>
         </div>

@@ -19,40 +19,37 @@ const Login = ({ showWelcomeHandler }) => {
       console.log("Login Response Data:", data);
 
       if (response.ok) {
-        setEmail("");
-        setPassword("");
+        // setEmail("");
+        // setPassword("");
         alert("Login success");
         localStorage.setItem("loginToken", data.token);
+        localStorage.setItem("userDetails", JSON.stringify(data));
 
         const vendorId = data.vendorId;
-        console.log("Vendor ID:", vendorId);
+        // console.log("Vendor ID:", vendorId);
 
         const vendorResponse = await fetch(
           `${API_URL}/vendor/single-vendor/${vendorId}`
         );
         const vendorData = await vendorResponse.json();
-        console.log("Vendor Data:", vendorData);
-
-        console.log("vendor response", vendorResponse);
 
         if (vendorResponse.ok) {
           const vendorFirmId = vendorData?.vendorFirmId;
           const vendorFirmName = vendorData?.vendor?.firm[0]?.firmName;
+          const firmDetails = { vendorFirmId, vendorFirmName };
           if (vendorFirmName === undefined && vendorFirmId === undefined) {
             window.location.reload();
-            showWelcomeHandler();
           } else if (
             vendorFirmId !== undefined &&
             vendorFirmName !== undefined
           ) {
-            localStorage.setItem("firmId", vendorFirmId);
-            localStorage.setItem("firmName", vendorFirmName);
+            localStorage.setItem("firmDetails", JSON.stringify(firmDetails));
             showWelcomeHandler();
             window.location.reload();
           }
         }
       } else {
-        alert("Login failed");
+        alert("Login failed or user does'nt exist");
       }
     } catch (error) {
       console.error(error);

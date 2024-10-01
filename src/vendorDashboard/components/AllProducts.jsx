@@ -5,12 +5,15 @@ const AllProducts = () => {
   const [products, setProducts] = useState([]);
 
   const productHandler = async () => {
-    const firmId = localStorage.getItem("firmId");
+    const firmDetails = JSON.parse(localStorage.getItem("firmDetails"));
+    const { vendorFirmId } = firmDetails || {};
+
     try {
-      const response = await fetch(`${API_URL}/product/${firmId}/products`);
+      const response = await fetch(
+        `${API_URL}/product/${vendorFirmId}/products`
+      );
       const newProductsData = await response.json();
       setProducts(newProductsData.products);
-      console.log(newProductsData);
     } catch (error) {
       console.error("Failed to fetch products", error);
       alert("Failed to fetch products");
@@ -19,7 +22,6 @@ const AllProducts = () => {
 
   useEffect(() => {
     productHandler();
-    console.log("useEffect");
   }, []);
 
   const deleteProductById = async (productId) => {

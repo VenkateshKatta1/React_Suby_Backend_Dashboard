@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { API_URL } from "../../data/apiPath";
+import AddProduct from "./AddProduct"; // Import AddProduct component
 
 const AddFirm = () => {
-  const [firmName, setFirmName] = useState("");
+  const [vendorFirmName, setVendorFirmName] = useState("");
   const [area, setArea] = useState("");
   const [category, setCategory] = useState([]);
   const [region, setRegion] = useState([]);
   const [offer, setOffer] = useState("");
   const [file, setFile] = useState(null);
+  const [firmAdded, setFirmAdded] = useState(false); // Manage the view
 
   const handleCategoryChange = (event) => {
     const value = event.target.value;
@@ -38,10 +40,11 @@ const AddFirm = () => {
       const loginToken = localStorage.getItem("loginToken");
       if (!loginToken) {
         console.error("User not authenticated");
+        return;
       }
 
       const formData = new FormData();
-      formData.append("firmName", firmName);
+      formData.append("firmName", vendorFirmName);
       formData.append("area", area);
       formData.append("offer", offer);
       formData.append("image", file);
@@ -65,29 +68,24 @@ const AddFirm = () => {
       console.log("API response:", data);
 
       if (response.ok) {
-        console.log(data);
-        setFirmName("");
-        setArea("");
-        setCategory([]);
-        setRegion([]);
-        setOffer("");
-        setFile(null);
         alert("Firm added successfully");
+        window.location.reload();
+        const vendorFirmId = data.vendorFirmId;
+        if (vendorFirmId) {
+          const firmDetails = { vendorFirmId, vendorFirmName };
+          localStorage.setItem("firmDetails", JSON.stringify(firmDetails));
+
+          setFirmAdded(true); // Change the view to AddProduct after success
+        } else {
+          console.error("firmId is missing");
+        }
       } else if (data.message === "Vendor can have only one firm") {
-        alert("Firm Exists 🥗. Only 1 firm can be added  ");
+        alert("Firm Exists 🥗. Only 1 firm can be added.");
       } else {
         alert("Failed to add Firm");
       }
-      const firmId = data.firmId;
-
-      if (firmId) {
-        localStorage.setItem("firmId", firmId);
-        console.log(firmId);
-      } else {
-        console.error("firmId is missing");
-      }
     } catch (error) {
-      console.error("Failed to add firm");
+      console.error("Failed to add firm", error);
       alert("Failed to add Firm");
     }
   };
@@ -100,8 +98,8 @@ const AddFirm = () => {
         <input
           type="text"
           name="firmName"
-          value={firmName}
-          onChange={(e) => setFirmName(e.target.value)}
+          value={vendorFirmName}
+          onChange={(e) => setVendorFirmName(e.target.value)}
         />
         <label>Area</label>
         <input

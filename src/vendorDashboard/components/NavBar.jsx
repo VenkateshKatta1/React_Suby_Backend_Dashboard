@@ -6,13 +6,16 @@ const NavBar = ({
   showLogOut,
   logOutHandler,
 }) => {
-  const firmName = localStorage.getItem("firmName");
+  const firmDetails = JSON.parse(localStorage.getItem("firmDetails"));
+  const { vendorFirmName } = firmDetails || {};
 
   return (
     <div className="navSection">
-      <div className="company">Vendor Dashboard</div>
+      <div className="company" onClick={() => window.location.reload()}>
+        Vendor Dashboard
+      </div>
       <div className="firmName">
-        <h4>Firmname: {firmName}</h4>
+        <h4>Firmname: {vendorFirmName}</h4>
       </div>
       <div className="userAuth">
         {!showLogOut ? (

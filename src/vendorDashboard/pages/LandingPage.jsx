@@ -4,9 +4,11 @@ import SideBar from "../components/SideBar";
 import Login from "../components/forms/Login";
 import Register from "../components/forms/Register";
 import AddFirm from "../components/forms/AddFirm";
+import DeleteFirm from "../components/DeleteFirm";
 import AddProduct from "../components/forms/AddProduct";
 import Welcome from "../components/forms/Welcome";
 import AllProducts from "../components/AllProducts";
+import UserDetails from "../components/forms/UserDetails";
 
 const LandingPage = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -14,9 +16,11 @@ const LandingPage = () => {
   const [showFirm, setShowFirm] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
   const [showAllProducts, setShowAllProducts] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [showLogOut, setShowLogOut] = useState(false);
   const [showFirmTitle, setShowFirmTitle] = useState(true);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const loginToken = localStorage.getItem("loginToken");
@@ -26,8 +30,10 @@ const LandingPage = () => {
   }, []);
 
   useEffect(() => {
-    const firmName = localStorage.getItem("firmName");
-    if (firmName) {
+    const firmDetails = JSON.parse(localStorage.getItem("firmDetails"));
+    const { vendorFirmName } = firmDetails || {};
+
+    if (!vendorFirmName) {
       setShowFirmTitle(false);
     }
   }, []);
@@ -36,8 +42,8 @@ const LandingPage = () => {
     const confirmation = confirm("Are you sure, you want to Logout?");
     if (!confirmation) return;
     localStorage.removeItem("loginToken");
-    localStorage.removeItem("firmId");
-    localStorage.removeItem("firmName");
+    localStorage.removeItem("firmDetails");
+    localStorage.removeItem("userDetails");
     setShowLogOut(false);
     setShowFirmTitle(true);
     window.location.reload();
@@ -50,6 +56,18 @@ const LandingPage = () => {
     setShowProduct(false);
     setShowWelcome(false);
     setShowAllProducts(false);
+    setShowDelete(false);
+    setShowDetails(false);
+  };
+  const showUserDetails = () => {
+    setShowLogin(false);
+    setShowRegister(false);
+    setShowFirm(false);
+    setShowProduct(false);
+    setShowWelcome(false);
+    setShowAllProducts(false);
+    setShowDelete(false);
+    setShowDetails(true);
   };
 
   const showRegisterHandler = () => {
@@ -59,6 +77,8 @@ const LandingPage = () => {
     setShowProduct(false);
     setShowWelcome(false);
     setShowAllProducts(false);
+    setShowDelete(false);
+    setShowDetails(false);
   };
 
   const showFirmHandler = () => {
@@ -69,6 +89,8 @@ const LandingPage = () => {
       setShowProduct(false);
       setShowWelcome(false);
       setShowAllProducts(false);
+      setShowDelete(false);
+      setShowDetails(false);
     } else {
       alert("Please login to continue");
       setShowLogin(true);
@@ -83,6 +105,8 @@ const LandingPage = () => {
       setShowLogin(false);
       setShowWelcome(false);
       setShowAllProducts(false);
+      setShowDelete(false);
+      setShowDetails(false);
     } else {
       alert("Please login to continue");
       setShowLogin(true);
@@ -95,6 +119,8 @@ const LandingPage = () => {
     setShowLogin(false);
     setShowWelcome(true);
     setShowAllProducts(false);
+    setShowDelete(false);
+    setShowDetails(false);
   };
   const showAllProductsHandler = () => {
     if (showLogOut) {
@@ -103,11 +129,23 @@ const LandingPage = () => {
       setShowRegister(false);
       setShowLogin(false);
       setShowWelcome(false);
+      setShowDelete(false);
+      setShowDetails(false);
       setShowAllProducts(true);
     } else {
       alert("Please login to continue");
       setShowLogin(true);
     }
+  };
+  const showDeleteHandler = () => {
+    setShowProduct(false);
+    setShowFirm(false);
+    setShowRegister(false);
+    setShowLogin(false);
+    setShowWelcome(false);
+    setShowAllProducts(false);
+    setShowDelete(true);
+    setShowDetails(false);
   };
 
   return (
@@ -125,6 +163,8 @@ const LandingPage = () => {
             showProductHandler={showProductHandler}
             showAllProductsHandler={showAllProductsHandler}
             showFirmTitle={showFirmTitle}
+            showDeleteHandler={showDeleteHandler}
+            showUserDetails={showUserDetails}
           />
           {showLogin && <Login showWelcomeHandler={showWelcomeHandler} />}
           {showRegister && <Register showLoginHandler={showLoginHandler} />}
@@ -132,6 +172,10 @@ const LandingPage = () => {
           {showProduct && showLogOut && <AddProduct />}
           {showWelcome && showLogOut && <Welcome />}
           {showAllProducts && showLogOut && <AllProducts />}
+          {showDelete && showFirmTitle && (
+            <DeleteFirm showLoginHandler={showLoginHandler} />
+          )}
+          {showDetails && showLogOut && <UserDetails />}
         </div>
       </section>
     </>

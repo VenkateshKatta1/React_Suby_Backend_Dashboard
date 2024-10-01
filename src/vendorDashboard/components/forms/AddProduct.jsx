@@ -32,9 +32,10 @@ const AddProduct = () => {
     e.preventDefault();
     try {
       const loginToken = localStorage.getItem("loginToken");
-      const firmId = localStorage.getItem("firmId");
+      const firmDetails = JSON.parse(localStorage.getItem("firmDetails"));
+      const { vendorFirmId } = firmDetails;
 
-      if (!loginToken || !firmId) {
+      if (!loginToken || !vendorFirmId) {
         console.error("User not authenticated");
       }
       const formData = new FormData();
@@ -47,10 +48,13 @@ const AddProduct = () => {
       category.forEach((value) => {
         formData.append("category", value);
       });
-      const response = await fetch(`${API_URL}/product/add-product/${firmId}`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${API_URL}/product/add-product/${vendorFirmId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await response.json();
 
       if (response.ok) {
