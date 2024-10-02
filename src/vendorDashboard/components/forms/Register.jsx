@@ -86,6 +86,7 @@ const Register = ({ showLoginHandler }) => {
           onChange={handleNumberChange}
           value={number}
         />
+        <br />
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div className="btnSubmit">
           <button type="submit">Submit</button>

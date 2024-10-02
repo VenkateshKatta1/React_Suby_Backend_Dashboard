@@ -2,11 +2,22 @@ import React, { useState } from "react";
 import { API_URL } from "../../data/apiPath";
 
 const Login = ({ showWelcomeHandler }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const loginHandler = async (e) => {
     e.preventDefault();
+    const { email, password } = formData;
     try {
       const response = await fetch(`${API_URL}/vendor/login`, {
         method: "POST",
@@ -16,17 +27,13 @@ const Login = ({ showWelcomeHandler }) => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-      console.log("Login Response Data:", data);
 
       if (response.ok) {
-        // setEmail("");
-        // setPassword("");
         alert("Login success");
         localStorage.setItem("loginToken", data.token);
         localStorage.setItem("userDetails", JSON.stringify(data));
 
         const vendorId = data.vendorId;
-        // console.log("Vendor ID:", vendorId);
 
         const vendorResponse = await fetch(
           `${API_URL}/vendor/single-vendor/${vendorId}`
@@ -65,8 +72,8 @@ const Login = ({ showWelcomeHandler }) => {
           type="text"
           name="email"
           placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleInputChange}
         />
         <br />
         <label>Password</label>
@@ -74,8 +81,8 @@ const Login = ({ showWelcomeHandler }) => {
           type="password"
           name="password"
           placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleInputChange}
         />
         <br />
         <div className="btnSubmit">

@@ -141,7 +141,7 @@ const AddFirm = () => {
         <div className="checkInp">
           <label>Region</label>
           <div className="inputscontainer">
-            <div className="checkboxcontainer">
+            <div className="checkboxcontainer-region">
               <label>South-Indian</label>
               <input
                 type="checkbox"
@@ -150,7 +150,7 @@ const AddFirm = () => {
                 onChange={handleRegionChange}
               />
             </div>
-            <div className="checkboxcontainer">
+            <div className="checkboxcontainer-region">
               <label>North-Indian</label>
               <input
                 type="checkbox"
@@ -159,7 +159,7 @@ const AddFirm = () => {
                 onChange={handleRegionChange}
               />
             </div>
-            <div className="checkboxcontainer">
+            <div className="checkboxcontainer-region">
               <label>Chinese</label>
               <input
                 type="checkbox"
@@ -168,7 +168,7 @@ const AddFirm = () => {
                 onChange={handleRegionChange}
               />
             </div>
-            <div className="checkboxcontainer">
+            <div className="checkboxcontainer-region">
               <label>Bakery</label>
               <input
                 type="checkbox"

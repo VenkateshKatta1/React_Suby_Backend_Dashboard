@@ -8,15 +8,17 @@ const AllProducts = () => {
     const firmDetails = JSON.parse(localStorage.getItem("firmDetails"));
     const { vendorFirmId } = firmDetails || {};
 
-    try {
-      const response = await fetch(
-        `${API_URL}/product/${vendorFirmId}/products`
-      );
-      const newProductsData = await response.json();
-      setProducts(newProductsData.products);
-    } catch (error) {
-      console.error("Failed to fetch products", error);
-      alert("Failed to fetch products");
+    if (vendorFirmId) {
+      try {
+        const response = await fetch(
+          `${API_URL}/product/${vendorFirmId}/products`
+        );
+        const newProductsData = await response.json();
+        setProducts(newProductsData.products);
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+        alert("Failed to fetch products");
+      }
     }
   };
 

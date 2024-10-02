@@ -17,6 +17,9 @@ const SideBar = ({
         <li onClick={showUserDetails}>User Details</li>
         {showFirmTitle ? <li onClick={showDeleteHandler}>Delete Firm</li> : ""}
       </ul>
+      <div className="logo">
+        <h3>SUBY</h3>
+      </div>
     </div>
   );
 };

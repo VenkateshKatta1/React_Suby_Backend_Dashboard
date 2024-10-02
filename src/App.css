@@ -12,12 +12,13 @@ body {
   height: 80px;
   display: flex;
   justify-content: space-between;
-  /* background-color: rgb(28, 40, 166); */
+  background-color: rgb(28, 40, 166);
   background-color: #f46036;
   align-items: center;
   color: white;
   padding: 0 20px;
   font-size: large;
+  /* position: ;/ */
 }
 .company {
   cursor: pointer;
@@ -29,19 +30,34 @@ body {
 .sideBarSection {
   width: 100%;
   max-width: 15%;
-  height: 95vh;
+  height: 87.8vh;
   padding-top: 10px;
-  /* background-color: lightgray; */
   background-color: #2e294e;
   color: white;
 }
 
+.sideBarSection ul {
+  list-style-type: none; /* Removes the bullet points */
+  padding: 0;
+  width: 100%; /* Make the list items stretch across the sidebar */
+}
+
 .sideBarSection ul li {
+  /* font-size: 10em; Larger font size for emphasis */
+  padding: 15px 0; /* Space around each list item */
+  text-align: center; /* Center-aligns the text */
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s; /* Adds a hover effect transition */
   list-style: none;
   margin-bottom: 20px;
-  font-weight: 500;
-  font-size: medium;
+  font-weight: 600;
+  font-size: larger;
   cursor: pointer;
+}
+
+.sideBarSection ul li:hover {
+  background-color: #40376e; /* Change background color when hovered */
 }
 
 .collectionSection {
@@ -129,6 +145,7 @@ body {
   max-width: 85%;
   display: flex;
 }
+
 .checkInp label {
   width: 20%;
 }
@@ -139,6 +156,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.checkboxcontainer-region {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkboxcontainer-region input {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 50%;
+  margin-left: 33px;
+  margin-right: 5px;
 }
 
 .checkboxcontainer label {
@@ -201,4 +235,25 @@ h3 {
   padding: 10px 0px;
   margin-bottom: 20px;
   border-radius: 5px;
+}
+
+.userDetails {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 299px;
+  font-size: larger;
+  /* background-color: black; */
+  font-weight: bolder;
+  margin-bottom: -10px;
+  height: 1%;
 }
